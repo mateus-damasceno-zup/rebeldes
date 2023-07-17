@@ -1,22 +1,22 @@
 package view;
 
 import model.Base;
+import model.Item;
 import service.BaseService;
-
-
+import service.ItemService;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class BaseView {
+public class ItemView {
     private Scanner entrada;
-    private BaseService baseService;
-    private Base base;
+    private ItemService itemService;
+    private Item item;
 
-    public BaseView(){
+    public ItemView(){
         entrada = new Scanner(System.in);
-        baseService = new BaseService();
-        base = new Base();
+        itemService = new ItemService();
+        item = new Item();
     }
 
     public void incializacao(){
@@ -27,22 +27,22 @@ public class BaseView {
             escolha = selecionaEscolhaUsuario();
 
             switch (escolha) {
-                case 1 -> baseService.consultaTodasBases();
+                case 1 -> itemService.consultaTodosItens();
                 case 2 -> {
                     System.out.println("Digite a coluna que você deseja consultar: ");
                     String column = entrada.nextLine();
-                    baseService.consultaColunaEspecifica(column);
+                    itemService.consultaColunaEspecifica(column);
                 }
                 case 3 -> {
-                    System.out.println("Digite o nome da base que deseja inserir: ");
+                    System.out.println("Digite o nome do item que deseja inserir: ");
                     String nome = entrada.nextLine();
-                    base.setNome(nome);
-                    System.out.println("digite o id do item :");
-                    Long itemId = entrada.nextLong();
-                    base.setItensId(itemId);
-                    System.out.println("digite o id do rebelde");
-                    Long rebeldeId = entrada.nextLong();
-                    baseService.inseriBase(nome,itemId,rebeldeId);
+                    item.setNome(nome);
+                    System.out.println("digite o valor do item :");
+                    Double valor = entrada.nextDouble();
+                    item.setValor(valor);
+                    System.out.println("digite o id da base");
+                    Long baseId = entrada.nextLong();
+                    itemService.inseriItem(nome,valor,baseId);
 
                 }
                 case 4 -> {
@@ -53,13 +53,13 @@ public class BaseView {
                     String campoAtualizar = entrada.nextLine();
                     System.out.println("digite o dado que deseja alterar");
                     String dadoAtualizar = entrada.nextLine();
-                    baseService.atualizaCampoBase(idParaAtualizar, campoAtualizar, dadoAtualizar);
+                    itemService.atualizaCampoItem(idParaAtualizar, campoAtualizar, dadoAtualizar);
                 }
                 case 5 -> {
                     System.out.println("Digite o id que deseja deletar: ");
                     Long idParaDeletar = entrada.nextLong();
                     entrada.nextLine();
-                    baseService.deletaDadosNaBase(idParaDeletar);
+                    itemService.deletaDadosItem(idParaDeletar);
                 }
                 case 6 -> System.out.println("Saindo...");
                 default -> System.out.println("Escolha inválida. Insira de 1 - 6");
@@ -70,11 +70,11 @@ public class BaseView {
     public void menu(){
         System.out.println("THE FORCE BE WITH YOU!!");
         System.out.println("Digite uma das opções abaixo");
-        System.out.println("1 - Consulta todos as bases");
-        System.out.println("2 - Consulta base por campo específico");
-        System.out.println("3 - cadastro nova base");
-        System.out.println("4 - Atualiza um dado da base");
-        System.out.println("5 - excluir uma base existente");
+        System.out.println("1 - Consulta todos os itens");
+        System.out.println("2 - Consulta item por campo específico");
+        System.out.println("3 - cadastro novo item");
+        System.out.println("4 - Atualiza um dado do item");
+        System.out.println("5 - excluir uma item existente");
         System.out.println("6 - Sair do menu");
     }
 
@@ -89,6 +89,7 @@ public class BaseView {
         }
         return 1;
     }
+
 
 
 }
