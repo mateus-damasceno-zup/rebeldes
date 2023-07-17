@@ -1,18 +1,17 @@
 package service;
 
-import model.Inventario;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import static connection.Conexao.getConnection;
 
-public class InventarioService {
+public class BaseService {
+
 
     private Statement statement;
 
-    public InventarioService(){
+    public BaseService(){
         try{
             statement = getConnection().createStatement();
         } catch (SQLException e) {
@@ -20,23 +19,23 @@ public class InventarioService {
         }
     }
 
-    public void consultaTodosInventarios(){
-        String sql = "SELECT * from inventario";
+    public void consultaTodasBases(){
+        String sql = "SELECT * from base";
         try{
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
-                System.out.println("id: " + resultSet.getInt("id_inventario") +
-                        ", rebelde id: " + resultSet.getString("rebelde_id") +
-                        ", item id: " + resultSet.getString("item_id")
+                System.out.println("id: " + resultSet.getInt("id_base") +
+                        ", nome base: " + resultSet.getString("nome_base") +
+                        ", item id: " + resultSet.getString("item_id") +
+                        ", rebeldes id"+resultSet.getString("rebelde_id")
                 );
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
     }
-
     public String consultaColunaEspecifica(String column){
-        String sql = "SELECT " + column + " from inventario";
+        String sql = "SELECT " + column + " from base";
         try{
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
@@ -47,9 +46,10 @@ public class InventarioService {
         }
         return sql;
     }
-    public void inseriInventario(Long idInventario, Long  idRebelde, Long idItem){
 
-        String sql = "INSERT INTO inventario (id_inventario, rebelde_id, item_id) VALUES ('"+idInventario+"', '"+idRebelde+"', '"+idItem+"');";
+    public void inseriBase( String  nomeBase, Long itemId, Long rebeldeId){
+
+        String sql = "INSERT INTO base (nome_base, rebelde_id, item_id) VALUES ('"+nomeBase+"', '"+itemId+"', '"+rebeldeId+"');";
         try{
             statement.executeUpdate(sql);
             System.out.println("Dado inserido com sucesso!");
@@ -58,9 +58,9 @@ public class InventarioService {
         }
     }
 
-    public void atualizaCampoInventario(Long idInventario, String campo, String dado){
+    public void atualizaCampoBase(Long idBase, String campo, String dado){
 
-        String sql = "UPDATE inventario set "+ consultaColunaEspecifica(campo) + " = '" + dado + "' where id_inventario = '" + idInventario +"'";
+        String sql = "UPDATE base set "+ consultaColunaEspecifica(campo) + " = '" + dado + "' where id_base = '" + idBase +"'";
         try{
             statement.executeUpdate(sql);
             System.out.println("Dado atualizado com sucesso!");
@@ -69,10 +69,9 @@ public class InventarioService {
         }
     }
 
-    public void atualizaTodoInventario(Long idInventario, Long rebeldeId,Long itemId){
+    public void atualizaTodaBase(Long idBase, String nomeBase, Long rebeldeId,Long itemId){
 
-        String sql = "UPDATE inventario set id_inventario, rebelde_id, item_id," +
-                "inventario_id ='" + idInventario + "','"+rebeldeId+"','"+itemId+"where id_invetario = '" + idInventario + "'";
+        String sql = "UPDATE base set id_base, nome_base, rebelde_id, item_id ='" + idBase + "','{"+nomeBase+"}','"+rebeldeId+"','"+itemId+ " where id_base = '" + idBase + "'";
 
         try{
             statement.executeUpdate(sql);
@@ -82,8 +81,8 @@ public class InventarioService {
         }
     }
 
-    public void deletaDadosNoInventario(Long id){
-        String sql = "DELETE from inventario where id_invetario = '" + id + "'";
+    public void deletaDadosNaBase(Long id){
+        String sql = "DELETE from base where id_base = '" + id + "'";
         try{
             statement.executeUpdate(sql);
             System.out.println("Dado deletado com sucesso!");

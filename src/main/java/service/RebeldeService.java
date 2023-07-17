@@ -67,7 +67,7 @@ public class RebeldeService {
     //método para inserir dados
     public void inseriRebelde(String nome, int idade, String genero, boolean traidor, Long baseId, Inventario inventario){
         String id=consultaColunaEspecificaInventario("id_inventario");
-        String sql = "INSERT INTO rebeldes (nome_rebelde, idade_rebelde, genero_rebelde, traidor_rebelde, base_id, inventario_id) VALUES ('{"+nome+"}', '"+idade+"', '{"+genero+"}', "+traidor+", '"+baseId+"', '"+id+"');";
+        String sql = "INSERT INTO rebeldes (nome_rebelde, idade_rebelde, genero_rebelde, traidor_rebelde, base_id, inventario_id) VALUES ('"+nome+"', '"+idade+"', '"+genero+"', "+traidor+", '"+baseId+"', '"+id+"');";
         try{
             statement.executeUpdate(sql);
             System.out.println("Dado inserido com sucesso!");
