@@ -1,0 +1,108 @@
+create database rebeldes
+
+create table REBELDES (id_rebelde SERIAL primary key,
+						nome_rebelde varchar(255),
+						idade_rebelde integer,
+						genero_rebelde varchar(255),
+						traidor_rebelde boolean,
+						base_id integer,
+						inventario_id integer,
+						relatorio_id integer);
+
+ALTER TABLE rebeldes  ALTER COLUMN genero_rebelde TYPE VARCHAR(255);
+
+
+create table BASE (id_base serial primary key,
+					nome_base varchar(255),
+					itens_id integer,
+					rebelde_id integer);
+
+--ALTER TABLE base  ALTER COLUMN nome_base TYPE VARCHAR(255);
+
+create table INVENTARIO (id_inventario serial,
+						rebelde_id integer,
+						item_id integer,
+						primary key(id_inventario,rebelde_id));
+
+create table ITENS (id_item serial primary key,
+					nome_item varchar(255),
+					valor_item decimal (10,2),
+					base_id integer);
+
+--ALTER TABLE ITENS  ALTER COLUMN nome_item TYPE VARCHAR(255);
+
+create table relatorioTraidores (id_relatorio serial primary key,
+									rebelde_id_relator integer,
+									rebelde_id_relatado integer);
+
+
+
+alter table base add constraint fk_base_rebelde
+foreign key (rebelde_id) references rebeldes (id_rebelde);
+
+--alter table base drop constraint fk_base_rebelde
+
+ALTER TABLE rebeldes ADD CONSTRAINT fk_rebeldes_base
+		FOREIGN KEY (base_id) REFERENCES base (id_base);
+
+--alter table rebeldes drop constraint fk_rebeldes_base
+
+alter table REBELDES add constraint fk_rebelde_inventario
+foreign key (inventario_id,id_rebelde) references inventario(id_inventario,rebelde_id);
+
+alter table rebeldes add constraint fk_rebelde_relatorio
+foreign key (relatorio_id) references relatorioTraidores(id_relatorio)
+
+--alter table rebeldes drop constraint fk_rebelde_inventario
+
+alter table relatorioTraidores add constraint fk_rebeldes_relatorio_relator
+foreign key (rebelde_id_relator) references rebeldes (id_rebelde);
+
+--alter table relatoriotraidores drop constraint fk_rebeldes_relatorio_relator
+
+alter table relatorioTraidores add constraint fk_rebeldes_relatorio_relatado
+foreign key (rebelde_id_relatado) references rebeldes (id_rebelde);
+
+--alter table relatorioTraidores drop constraint fk_rebeldes_relatorio_relatado
+
+alter table base add constraint fk_base_itens
+		foreign key (itens_id) references itens (id_item);
+
+--alter table base drop constraint fk_base_itens
+
+
+INSERT INTO rebeldes (nome_rebelde, idade_rebelde, genero_rebelde, traidor_rebelde,base_id,inventario_id)
+values ('dock','333','neutron',true,'1','1')
+
+insert into base (nome_base,itens_id,rebelde_id)  values ('trew','1','1')
+
+
+INSERT INTO rebeldes (id_rebelde ,nome_rebelde, idade_rebelde, genero_rebelde, traidor_rebelde, base_id, inventario_id)
+VALUES (1,'dock', 333,'neutron', true, 1, 1);
+
+INSERT INTO rebeldes (nome_rebelde, idade_rebelde, genero_rebelde, traidor_rebelde, base_id, inventario_id)
+VALUES ('dolkudor', '333', 'neutron', true, '2', '3');
+
+
+INSERT INTO rebeldes (nome_rebelde, idade_rebelde, genero_rebelde, traidor_rebelde, base_id, inventario_id)
+VALUES ('gidubinc', '2023', 'frances', false, '1', '2');
+
+INSERT INTO base (nome_base ,itens_id ,rebelde_id)
+VALUES ('tatatoui', '4','3');
+
+insert into inventario (rebelde_id ,item_id) values ('3','1')
+
+insert into itens (nome_item,valor_item,base_id) values ('sabre de luz','1000','1')
+
+
+SELECT inventario.id_inventario, rebeldes.nome_rebelde, itens.nome_item
+from inventario
+inner join rebeldes
+on inventario.id_inventario  =rebeldes.inventario_id
+inner join itens on
+inventario.item_id  = itens.id_item
+
+select rebeldes.*, i.*  from rebeldes r, inventario i where r.id_rebelde =i.rebelde_id;
+
+select * from relatoriotraidores r ;
+insert into relatoriotraidores (rebelde_id_relator ,rebelde_id_relatado) values (3,2)
