@@ -26,7 +26,7 @@ public class BaseService {
             while (resultSet.next()){
                 System.out.println("id: " + resultSet.getInt("id_base") +
                         ", nome base: " + resultSet.getString("nome_base") +
-                        ", item id: " + resultSet.getString("item_id") +
+                        ", item id: " + resultSet.getString("itens_id") +
                         ", rebeldes id"+resultSet.getString("rebelde_id")
                 );
             }
@@ -49,7 +49,7 @@ public class BaseService {
 
     public void inseriBase( String  nomeBase, Long itemId, Long rebeldeId){
 
-        String sql = "INSERT INTO base (nome_base, rebelde_id, item_id) VALUES ('"+nomeBase+"', '"+itemId+"', '"+rebeldeId+"');";
+        String sql = "INSERT INTO base (nome_base, rebelde_id, itens_id) VALUES ('"+nomeBase+"', '"+itemId+"', '"+rebeldeId+"');";
         try{
             statement.executeUpdate(sql);
             System.out.println("Dado inserido com sucesso!");
@@ -71,7 +71,7 @@ public class BaseService {
 
     public void atualizaTodaBase(Long idBase, String nomeBase, Long rebeldeId,Long itemId){
 
-        String sql = "UPDATE base set id_base, nome_base, rebelde_id, item_id ='" + idBase + "','{"+nomeBase+"}','"+rebeldeId+"','"+itemId+ " where id_base = '" + idBase + "'";
+        String sql = "UPDATE base set id_base, nome_base, rebelde_id, itens_id ='" + idBase + "','"+nomeBase+"','"+rebeldeId+"','"+itemId+ " where id_base = '" + idBase + "'";
 
         try{
             statement.executeUpdate(sql);
