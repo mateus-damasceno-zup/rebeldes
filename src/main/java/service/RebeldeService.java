@@ -91,7 +91,7 @@ public class RebeldeService {
                                     Long baseId, Inventario inventario){
 
         String sql = "UPDATE rebeldes set nome_rebelde, idade_rebelde, genero_rebelde, traidor_rebelde,base_id," +
-                "inventario_id ='" + nome + "','"+idade+"','"+genero+"','"+traidor+"','"+baseId+"','"+inventario+"'" +
+                "inventario_id ='" + nome + "','"+idade+"','"+genero+"','"+traidor+"','"+baseId+"','"+inventario.getId()+"'" +
                 "where id_rebelde = '" + id + "'";
 
         try{

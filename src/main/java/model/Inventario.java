@@ -10,6 +10,10 @@ public class Inventario {
 
     }
 
+    public Inventario() {
+
+    }
+
     public Long getId() {
         return id;
     }
