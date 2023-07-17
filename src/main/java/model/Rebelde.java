@@ -8,7 +8,7 @@ public class Rebelde {
     private int idade;
     private String genero;
     private boolean traidor;
-    private String localizacao;
+    private Long localizacao;
     private Inventario inventario;
 
     public Long getId() {
@@ -51,11 +51,11 @@ public class Rebelde {
         this.traidor = traidor;
     }
 
-    public String getLocalizacao() {
+    public Long getLocalizacao() {
         return localizacao;
     }
 
-    public void setLocalizacao(String localizacao) {
+    public void setLocalizacao(Long localizacao) {
         this.localizacao = localizacao;
     }
 

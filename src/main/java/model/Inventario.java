@@ -6,6 +6,10 @@ public class Inventario {
     private Long rebeldeId;
     private Long itemId;
 
+    public Inventario(Long idInventario, Long idRebelde, Long idItem) {
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -28,5 +32,10 @@ public class Inventario {
 
     public void setItemId(Long itemId) {
         this.itemId = itemId;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(id+ rebeldeId + itemId);
     }
 }

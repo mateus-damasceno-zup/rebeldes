@@ -1,8 +1,10 @@
 package view;
 
+import model.Inventario;
 import model.Rebelde;
 import service.RebeldeService;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RebeldeView {
@@ -18,58 +20,73 @@ public class RebeldeView {
 
     public void incializacao(){
         int escolha;
+
         do {
             menu();
             escolha = selecionaEscolhaUsuario();
 
-            switch (escolha){
-                case 1:
-                    rebeldeService.consultaTodosDadosDaTabela();
-                    break;
-                case 2:
+            switch (escolha) {
+                case 1 -> rebeldeService.consultaTodosRebeldes();
+                case 2 -> {
                     System.out.println("Digite a coluna que você deseja consultar: ");
                     String column = entrada.nextLine();
                     rebeldeService.consultaColunaEspecifica(column);
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.println("Digite o nome que deseja inserir: ");
                     String nome = entrada.nextLine();
-                    usuario.setNome(nome);
-                    rebeldeService.inserirDadosNaTabela(usuario.getNome());
-                    break;
-                case 4:
+                    rebelde.setNome(nome);
+                    System.out.println("digite a idade do rebelde :");
+                    int idade = entrada.nextInt();
+                    entrada.nextLine();
+                    rebelde.setIdade(idade);
+                    System.out.println("digite o genero do rebelde");
+                    String genero = entrada.nextLine();
+                    rebelde.setGenero(genero);
+                    System.out.println("marque true ou false para saber se é traidor");
+                    boolean isTraidor = entrada.nextBoolean();
+                    rebelde.setTraidor(isTraidor);
+                    System.out.println("informe a id da base: ");
+                    Long idBase = entrada.nextLong();
+                    rebelde.setLocalizacao(idBase);
+                    System.out.println("informe o id do inventario");
+                    Long idInventario = entrada.nextLong();
+                    System.out.println("informe o id do item");
+                    Long idItem = entrada.nextLong();
+                    Inventario inventario = new Inventario(idInventario, rebelde.getId(), idItem);
+                    rebelde.setInventario(inventario);
+                    rebeldeService.inseriRebelde(nome, idade, genero, isTraidor, idBase, inventario);
+                }
+                case 4 -> {
                     System.out.println("Digite o id que deseja atualizar: ");
                     Long idParaAtualizar = entrada.nextLong();
                     entrada.nextLine();
-                    System.out.println("Digite o novo dado que deseja inserir: ");
-                    String nomeParaAtualizar = entrada.nextLine();
-                    usuario.setNome(nomeParaAtualizar);
-                    rebeldeService.atualizaDadosNaTabela(idParaAtualizar, usuario.getNome());
-                    break;
-                case 5:
+                    System.out.println("Digite o campo que deseja atualizar: ");
+                    String campoAtualizar = entrada.nextLine();
+                    System.out.println("digite o dado que deseja alterar");
+                    String dadoAtualizar = entrada.nextLine();
+                    rebeldeService.atualizaCampoRebelde(idParaAtualizar, campoAtualizar, dadoAtualizar);
+                }
+                case 5 -> {
                     System.out.println("Digite o id que deseja deletar: ");
                     Long idParaDeletar = entrada.nextLong();
                     entrada.nextLine();
                     rebeldeService.deletaDadosNaTabela(idParaDeletar);
-                    break;
-                case 6:
-                    System.out.println("Saindo...");
-                    break;
-                default:
-                    System.out.println("Escolha inválida. Insira de 1 - 6");
-                    break;
+                }
+                case 6 -> System.out.println("Saindo...");
+                default -> System.out.println("Escolha inválida. Insira de 1 - 6");
             }
         }while(escolha != 6);
     }
 
     public void menu(){
-        System.out.println("BEM VINDO!");
+        System.out.println("THE FORCE BE WITH YOU!!");
         System.out.println("Digite uma das opções abaixo");
-        System.out.println("1 - Consulta todos os dados");
-        System.out.println("2 - Consulta dados por coluna específica");
-        System.out.println("3 - Insira um novo dado");
-        System.out.println("4 - Atualiza um dado existente");
-        System.out.println("5 - Deleta um dado existente");
+        System.out.println("1 - Consulta todos os rebeldes");
+        System.out.println("2 - Consulta rebelde por campo específico");
+        System.out.println("3 - cadastro novo rebelde");
+        System.out.println("4 - Atualiza um dado do rebelde");
+        System.out.println("5 - excluir um rebelde existente");
         System.out.println("6 - Sair do menu");
     }
 
@@ -86,4 +103,4 @@ public class RebeldeView {
     }
 
 }
-}
+
